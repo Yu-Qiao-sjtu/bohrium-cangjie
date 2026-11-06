@@ -2,21 +2,7 @@
 
 把 [Wisp Cangjie](https://github.com/Yu-Qiao-sjtu/wisp-cangjie) 编译出的技能，收成玻尔科学空间桌面端能加载的格式。
 
-仓颉继续负责阶段 0 到阶段 4，以及 `scripts/distill.py compile`。它的 `SKILL.md` 带块标量 `description`，还有 `tags`、`wisp` 和 `metadata`。本机 `scix.exe` `0.10.17` 的扫描器只接受 `name` 与单行 `description`，多出来的字段会让技能不可用。`adapt` 的输出目录就是玻尔直接扫描的技能，安装时不再做第二次格式转换。正文和附属文件原样复制。
-
-## 契约
-
-规则来自本机 `D:\玻尔·科学空间\versions\0.10.17-ebc8e7182ab8-required-1520739-update\scix.exe` 里的 `src/local_skills/frontmatter.rs`，以及 `brain.mjs` 的目录预览长度。
-
-| 项 | 要求 |
-|---|---|
-| 位置 | `%USERPROFILE%\.bohrium\skills\<name>\SKILL.md`，只扫描一层 |
-| frontmatter | 只有 `name`、`description` |
-| `name` | 全小写 kebab-case，短于 64 字符，等于目录名 |
-| `description` | 非空单行，最多 1024 字符，不能含 `<` `>` |
-| 目录预览 | 500 字符后截断，触发词放在前面 |
-| 编码 | UTF-8，无 BOM |
-| 禁止键 | `disableModelInvocation`、`modelInvocable`、`userInvocable` |
+仓颉继续负责阶段 0 到阶段 4，以及 `scripts/distill.py compile`。编译结果里的 `description` 是块标量，并带有 `tags`、`wisp` 和 `metadata`。`adapt` 只保留 `name` 与单行 `description`，输出目录就是玻尔直接扫描的技能，安装时不再做第二次格式转换。正文和附属文件原样复制。
 
 ## 用法
 

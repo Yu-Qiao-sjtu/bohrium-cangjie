@@ -1,9 +1,9 @@
 """Rewrite a Wisp Cangjie skill tree into Bohrium desktop skills.
 
 Cangjie ``compile_single.py`` / ``compile_pack.py`` emit a block-scalar
-``description`` plus ``tags``, ``wisp`` and ``metadata``. SciX 0.10.17 keeps
-only a single-line ``name`` and ``description``, and the ``name`` must equal
-the skill directory. The instruction body is copied unchanged.
+``description`` plus ``tags``, ``wisp`` and ``metadata``. The adapted skill
+keeps only a single-line ``name`` and ``description``, and the ``name`` must
+equal the skill directory. The instruction body is copied unchanged.
 """
 
 from __future__ import annotations

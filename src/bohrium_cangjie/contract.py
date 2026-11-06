@@ -1,9 +1,4 @@
-"""Bohrium desktop skill contract, read from scix.exe 0.10.17.
-
-The scanner lives in ``src/local_skills/frontmatter.rs`` and ``scan.rs``.
-The catalog preview length lives in ``brain.mjs``
-(``DEFAULT_CATALOG_DESCRIPTION_MAX_LENGTH``).
-"""
+"""Limits used when adapting a skill for the Bohrium desktop."""
 
 from __future__ import annotations
 
@@ -12,7 +7,7 @@ import unicodedata
 
 DESCRIPTION_MAX_CHARS = 1024
 CATALOG_PREVIEW_CHARS = 500
-NAME_MAX_CHARS = 63  # scix: "shorter than 64 characters"
+NAME_MAX_CHARS = 63
 FORBIDDEN_KEYS = frozenset({
     "disableModelInvocation",
     "modelInvocable",
