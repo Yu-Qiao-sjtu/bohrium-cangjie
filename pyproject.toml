@@ -1,0 +1,17 @@
+[project]
+name = "bohrium-cangjie"
+version = "0.1.0"
+description = "Adapt Wisp Cangjie skill packs to the Bohrium Science Space desktop skill contract."
+readme = "README.md"
+requires-python = ">=3.11"
+license = "Apache-2.0"
+
+[project.scripts]
+bohrium-cangjie = "bohrium_cangjie.__main__:main"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
