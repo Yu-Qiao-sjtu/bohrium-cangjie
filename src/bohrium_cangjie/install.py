@@ -13,7 +13,8 @@ import tempfile
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
 
-from bohrium_cangjie.adapt import AdaptError, _reject_symlink, _skill_children
+from bohrium_cangjie.adapt import AdaptError, _copy_tree, _reject_symlink, _skill_children
+from bohrium_cangjie.contract import is_skill_name
 
 
 @dataclass
@@ -47,6 +48,14 @@ def install_directory(source: Path, dest: Path) -> InstallReport:
     dest = dest.resolve()
     if not (source / "SKILL.md").is_file():
         raise AdaptError(f"missing SKILL.md in {source}")
+    if not is_skill_name(source.name):
+        return InstallReport(
+            name=source.name,
+            status="rejected",
+            source=str(source),
+            output=str(dest),
+            notes=["directory name is not a lowercase kebab-case skill name shorter than 64 characters"],
+        )
     report = InstallReport(name=source.name, status="installed", source=str(source), output=str(dest))
     if dest.exists():
         _reject_symlink(dest)
@@ -60,7 +69,7 @@ def install_directory(source: Path, dest: Path) -> InstallReport:
     if staging.exists():
         shutil.rmtree(staging)
     try:
-        shutil.copytree(source, staging, copy_function=shutil.copyfile)
+        _copy_tree(source, staging)
         os.replace(staging, dest)
     except Exception:
         shutil.rmtree(staging, ignore_errors=True)

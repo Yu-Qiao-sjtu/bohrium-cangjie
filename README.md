@@ -26,7 +26,7 @@ python -m bohrium_cangjie adapt --source D:\path\to\cangjie\dist\book --out D:\p
 python -m bohrium_cangjie install --source D:\path\to\adapted --dest "$env:USERPROFILE\.bohrium\skills"
 ```
 
-`--source` 可以是单个技能目录，也可以是仓颉 pack（若干 `<name>/SKILL.md` 与旁边的审计文件）。命令把 JSON 报告写到 stdout。`rejected` 或 `conflict` 时退出码为 1。`conflict` 不会覆盖已经装过、且内容不同的目录。
+`--source` 可以是单个技能目录，也可以是仓颉 pack（若干 `<name>/SKILL.md` 与旁边的审计文件）。命令把 JSON 报告写到 stdout。`rejected` 或 `conflict` 时退出码为 1。pack 里有一个技能被拒绝时，整份适配输出会删掉。`conflict` 不会覆盖已经装过、且内容不同的目录。点开头的文件和符号链接不会复制。
 
 装完以后新开一条玻尔对话，宿主才会重新扫描。
 

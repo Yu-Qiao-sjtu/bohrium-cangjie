@@ -124,7 +124,11 @@ def adapt_skill_text(raw: str, directory_name: str) -> tuple[str, SkillReport]:
     forbidden = sorted(set(stripped) & FORBIDDEN_KEYS)
     if forbidden:
         notes.append("removed invocation keys " + ", ".join(forbidden))
-    text = render_skill(directory_name, description, body if body.startswith("\n") or body == "" else "\n" + body)
+    if body.startswith(("\n", "\r\n")) or body == "":
+        rendered_body = body
+    else:
+        rendered_body = "\n" + body
+    text = render_skill(directory_name, description, rendered_body)
     if text.encode("utf-8").startswith(b"\xef\xbb\xbf"):
         raise AdaptError("refusing to write a BOM")
     report = SkillReport(
@@ -156,7 +160,7 @@ def adapt_path(source: Path, dest: Path) -> list[SkillReport]:
         for child in children:
             reports.append(adapt_directory(child, dest / child.name))
         for entry in source.iterdir():
-            if entry.name in {child.name for child in children}:
+            if entry.name.startswith(".") or entry.name in {child.name for child in children}:
                 continue
             _reject_symlink(entry)
             target = dest / entry.name
@@ -167,6 +171,11 @@ def adapt_path(source: Path, dest: Path) -> list[SkillReport]:
     except Exception:
         shutil.rmtree(dest, ignore_errors=True)
         raise
+    if any(item.status == "rejected" for item in reports):
+        shutil.rmtree(dest)
+        for item in reports:
+            item.output = ""
+            item.notes.append("pack output removed because a skill was rejected")
     return reports
 
 
@@ -180,7 +189,16 @@ def adapt_directory(source: Path, dest: Path) -> SkillReport:
     _reject_symlink(skill_file)
     if dest.exists():
         raise AdaptError(f"output already exists: {dest}")
-    raw = skill_file.read_text(encoding="utf-8")
+    try:
+        raw = skill_file.read_text(encoding="utf-8")
+    except UnicodeError as exc:
+        return SkillReport(
+            name=source.name,
+            status="rejected",
+            source=str(source),
+            output=str(dest),
+            notes=[f"SKILL.md is not UTF-8: {exc}"],
+        )
     try:
         rewritten, report = adapt_skill_text(raw, source.name)
     except AdaptError as exc:
@@ -218,6 +236,9 @@ def _copy_tree(source: Path, dest: Path) -> None:
     def ignore(directory: str, names: list[str]) -> set[str]:
         blocked: set[str] = set()
         for name in names:
+            if name.startswith("."):
+                blocked.add(name)
+                continue
             path = Path(directory) / name
             if path.is_symlink():
                 raise AdaptError(f"refusing to copy symlink: {path}")
@@ -236,5 +257,5 @@ def _unquote(value: str) -> str:
         inner = value[1:-1]
         if value[0] == '"':
             return inner.replace('\\"', '"').replace("\\\\", "\\")
-        return inner
+        return inner.replace("''", "'")
     return value
