@@ -18,7 +18,7 @@ python -m bohrium_cangjie install --source D:\path\to\adapted --dest "$env:USERP
 
 ## 例子
 
-`examples/high-expression-good-prognosis/` 是成品技能，演示「高表达且预后较好的基因如何讨论」。来源文章是 [高表达，预后好基因的研究思路](https://mp.weixin.qq.com/s/c5IMOOi7MXYVVVBc4SBFBA)。文中的反式脂肪酸和灌胃实验只留在能力卡示例里，不写进技能的触发条件。目录里的 `SKILL.md` 只有 `name` 和 `description`，复制到 `%USERPROFILE%\.bohrium\skills\high-expression-good-prognosis` 即可被玻尔识别。
+`examples/high-expression-good-prognosis/` 演示「高表达且预后较好的基因如何讨论」。来源文章是 [高表达，预后好基因的研究思路](https://mp.weixin.qq.com/s/c5IMOOi7MXYVVVBc4SBFBA)。讨论顺序在 `SKILL.md`，文中那项研究只在 `references/example.md`。目录复制到 `%USERPROFILE%\.bohrium\skills\high-expression-good-prognosis` 即可被玻尔识别。
 
 给玻尔代理用的操作说明在 `skills/bohrium-cangjie/SKILL.md`。安装这个技能时，目录名必须是 `bohrium-cangjie`。
 

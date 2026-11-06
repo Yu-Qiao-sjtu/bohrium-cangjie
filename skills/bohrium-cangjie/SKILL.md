@@ -20,7 +20,7 @@ description: "把书籍、论文、长视频、播客或课程蒸馏成玻尔科
 - `description` 是一行双引号标量，不超过 1024 字符，不含 `<` `>`。触发词放在前 500 字，目录预览在这里截断。
 - 文件是无 BOM 的 UTF-8。
 - 不写 `tags`、`wisp`、`metadata`、`license`，也不写 `disableModelInvocation`、`modelInvocable`、`userInvocable`。
-- 正文、`references/`、`scripts/`、`assets/` 保持仓颉编译结果，不改写方法论。
+- 仓颉编译出的正文只是材料。它常把一篇思路拆成路由入口和原子能力卡，规则会落成材料里的实验清单。交付前把正文改成用户要做的事：讨论类写成讨论顺序，具体分子、底物和动物实验放进示例。格式用适配命令改，逻辑不对就改正文，不要原样安装。
 
 用户级安装根是 `%USERPROFILE%\.bohrium\skills`。只扫描这一层，嵌套的 `SKILL.md` 不会单独出现。
 
