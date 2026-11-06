@@ -124,11 +124,7 @@ def adapt_skill_text(raw: str, directory_name: str) -> tuple[str, SkillReport]:
     forbidden = sorted(set(stripped) & FORBIDDEN_KEYS)
     if forbidden:
         notes.append("removed invocation keys " + ", ".join(forbidden))
-    if body.startswith(("\n", "\r\n")) or body == "":
-        rendered_body = body
-    else:
-        rendered_body = "\n" + body
-    text = render_skill(directory_name, description, rendered_body)
+    text = render_skill(directory_name, description, body)
     if text.encode("utf-8").startswith(b"\xef\xbb\xbf"):
         raise AdaptError("refusing to write a BOM")
     report = SkillReport(

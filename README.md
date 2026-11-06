@@ -2,7 +2,7 @@
 
 把 [Wisp Cangjie](https://github.com/Yu-Qiao-sjtu/wisp-cangjie) 编译出的技能，收成玻尔科学空间桌面端能加载的格式。
 
-仓颉继续负责阶段 0 到阶段 4，以及 `scripts/distill.py compile`。它的 `SKILL.md` 带块标量 `description`，还有 `tags`、`wisp` 和 `metadata`。本机 `scix.exe` `0.10.17` 的扫描器只接受 `name` 与单行 `description`，多出来的字段会让技能不可用。这个库做的就是这一层改写，正文和附属文件原样复制。
+仓颉继续负责阶段 0 到阶段 4，以及 `scripts/distill.py compile`。它的 `SKILL.md` 带块标量 `description`，还有 `tags`、`wisp` 和 `metadata`。本机 `scix.exe` `0.10.17` 的扫描器只接受 `name` 与单行 `description`，多出来的字段会让技能不可用。`adapt` 的输出目录就是玻尔直接扫描的技能，安装时不再做第二次格式转换。正文和附属文件原样复制。
 
 ## 契约
 
@@ -29,6 +29,10 @@ python -m bohrium_cangjie install --source D:\path\to\adapted --dest "$env:USERP
 `--source` 可以是单个技能目录，也可以是仓颉 pack（若干 `<name>/SKILL.md` 与旁边的审计文件）。命令把 JSON 报告写到 stdout。`rejected` 或 `conflict` 时退出码为 1。pack 里有一个技能被拒绝时，整份适配输出会删掉。`conflict` 不会覆盖已经装过、且内容不同的目录。点开头的文件和符号链接不会复制。
 
 装完以后新开一条玻尔对话，宿主才会重新扫描。
+
+## 例子
+
+`examples/high-expression-good-prognosis/` 是一篇公众号文章蒸馏后的成品。来源是 [高表达，预后好基因的研究思路](https://mp.weixin.qq.com/s/c5IMOOi7MXYVVVBc4SBFBA)。仓颉先编译成 Wisp frontmatter，本库再收成现在这个目录。目录里的 `SKILL.md` 只有 `name` 和 `description`，复制到 `%USERPROFILE%\.bohrium\skills\high-expression-good-prognosis` 即可被玻尔识别。
 
 给玻尔代理用的操作说明在 `skills/bohrium-cangjie/SKILL.md`。安装这个技能时，目录名必须是 `bohrium-cangjie`。
 

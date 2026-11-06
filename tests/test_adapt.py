@@ -44,6 +44,11 @@ class AdaptTests(unittest.TestCase):
         self.assertTrue(text.endswith("\n# 因果验证\n\n正文保持不动。\n"))
         self.assertFalse(text.encode("utf-8").startswith(b"\xef\xbb\xbf"))
 
+    def test_body_directly_after_fence_is_preserved(self) -> None:
+        raw = "---\nname: tight-skill\ndescription: 触发：高表达预后好\n---\n# 标题\n\n正文\n"
+        text, _report = adapt_skill_text(raw, "tight-skill")
+        self.assertTrue(text.endswith("---\n# 标题\n\n正文\n"))
+
     def test_name_follows_directory(self) -> None:
         raw = "---\nname: other-name\ndescription: 触发：蒸馏成 skill\n---\n\n# Body\n"
         text, report = adapt_skill_text(raw, "bohrium-ready")
